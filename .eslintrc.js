@@ -10,6 +10,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:eslint-plugin-prettier/recommended',
   ],
+  plugins: ['import'],
   parserOptions: {
     ecmaVersion: 2020,
 
@@ -17,6 +18,24 @@ module.exports = {
     parser: '@typescript-eslint/parser',
   },
   rules: {
+    'import/order': [
+      1,
+      {
+        pathGroups: [
+          {
+            pattern: '@/**',
+            group: 'internal',
+          },
+        ],
+        groups: ['external', 'internal', ['parent', 'sibling', 'index']],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+      },
+    ],
+
     'prettier/prettier': 'error',
     '@typescript-eslint/no-var-requires': 0,
   },

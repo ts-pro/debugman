@@ -7,15 +7,17 @@
   "author": "havrashenko <gavrashenko@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "build": "craco build && webpack --config webpack.extention.config.js",
     "build: extension": "webpack --config webpack.extention.config.js",
-    "start: panel": "craco start",
-    "build: panel": "craco build"
+    "build: panel": "craco build",
+    "start: panel": "craco start"
   },
   "devDependencies": {
     "@craco/craco": "^6.4.0",
     "@types/chrome": "0.0.163",
     "@types/react": "17.0.34",
     "@types/react-dom": "17.0.11",
+    "@types/react-redux": "^7.1.20",
     "@typescript-eslint/eslint-plugin": "5.0.0",
     "@typescript-eslint/parser": "5.0.0",
     "eslint": "7.29.0",
@@ -29,8 +31,10 @@
     "webpack-cli": "4.9.1"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-redux": "^7.2.6",
     "react-scripts": "5.0.0-next.47"
   },
   "browserslist": {

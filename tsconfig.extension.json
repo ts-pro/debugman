@@ -12,7 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": false,
     "sourceMap": false,
-    "baseUrl": "./src/extention",
+    "baseUrl": ".",
     "types": [
       "chrome"
     ],

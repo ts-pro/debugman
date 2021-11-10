@@ -1,4 +1,5 @@
 import { PortMessage, PortName } from './types/types';
+
 import Port = chrome.runtime.Port;
 
 console.log('content-script loaded');
@@ -29,7 +30,6 @@ function sendMessage(message: PortMessage) {
 
 // Accept messages from web page.
 window.addEventListener('message', (e) => {
-  console.log('web-page', e.data);
   const message = e.data as PortMessage;
   if (message?.action) {
     sendMessage(message);

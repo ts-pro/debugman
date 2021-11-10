@@ -1,11 +1,14 @@
 import { PortMessage, PortName } from './types/types';
+
 import Port = chrome.runtime.Port;
 
 const ports: Record<number, Record<PortName, Port | undefined>> = {};
 
 function messageListener(message: PortMessage, port: Port): void {
   const tabId =
-    message.action === 'init' ? message.tabId : port.sender?.tab?.id ?? -1;
+    message.action === '__debugman_init__'
+      ? message.tabId
+      : port.sender?.tab?.id ?? -1;
   const fromName = port.name as PortName;
   const toName: PortName = fromName === 'webpage' ? 'devtools' : 'webpage';
 

@@ -1,3 +1,6 @@
+import { store } from '@/store/store';
+import { websocketAdd } from '@/store/websocket-slice/websocket-slice';
+
 import { PortMessage, PortName } from './types/types';
 
 const PORT_NAME: PortName = 'devtools';
@@ -8,16 +11,11 @@ export function initPanel() {
   });
 
   port.postMessage({
-    action: 'init',
+    action: '__debugman_init__',
     tabId: chrome.devtools.inspectedWindow.tabId,
   } as PortMessage);
 
-  const messagesEl = document.getElementById('messages');
   port.onMessage.addListener(async function (message) {
-    if (messagesEl) {
-      const content = document.createTextNode(JSON.stringify(message));
-      messagesEl.appendChild(content);
-      messagesEl.appendChild(document.createElement('br'));
-    }
+    store.dispatch(websocketAdd(JSON.stringify(message)));
   });
 }
