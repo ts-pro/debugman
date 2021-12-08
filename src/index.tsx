@@ -16,7 +16,7 @@ ReactDOM.render(
         <Routes>
           <Route path="/websocket" element={<Websocket />} />
           <Route path="/grpc" element={<Grpc />} />
-          <Route path="*" element={<Grpc />} />
+          <Route path="*" element={<Websocket />} />
         </Routes>
       </React.StrictMode>
     </BrowserRouter>

@@ -1,7 +1,6 @@
 import { PortMessage, PortName } from './types/types';
 
 import Port = chrome.runtime.Port;
-
 const ports: Record<number, Record<PortName, Port | undefined>> = {};
 
 function messageListener(message: PortMessage, port: Port): void {

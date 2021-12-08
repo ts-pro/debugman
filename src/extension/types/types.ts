@@ -1,3 +1,5 @@
+import { WebsocketStateItem } from '@/store/websocket-slice/websocket-slice';
+
 export type PortName = 'webpage' | 'devtools';
 
 export type PortMessageAction = '__debugman_websocket__' | '__debugman_init__';
@@ -8,7 +10,7 @@ export type PortMessageWrapper<T extends PortMessageAction, U> = {
 export type PortMessageWebsocket = PortMessageWrapper<
   '__debugman_websocket__',
   {
-    [key: string]: unknown;
+    data: WebsocketStateItem;
   }
 >;
 
