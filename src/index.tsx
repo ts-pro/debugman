@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import 'antd/dist/antd.less';
 
 import Grpc from '@/pages/Grpc/Grpc';
 import Websocket from '@/pages/Websocket/Websocket';

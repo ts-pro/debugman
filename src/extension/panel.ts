@@ -1,5 +1,8 @@
 import { store } from '@/store/store';
-import { websocketAdd } from '@/store/websocket-slice/websocket-slice';
+import {
+  websocketAdd,
+  clearLog,
+} from '@/store/websocket-slice/websocket-slice';
 
 import { PortMessage, PortName } from './types/types';
 
@@ -11,9 +14,11 @@ export function initPanel() {
       name: PORT_NAME,
     });
 
+    const tabId = chrome.devtools.inspectedWindow.tabId;
+
     port.postMessage({
       action: '__debugman_init__',
-      tabId: chrome.devtools.inspectedWindow.tabId,
+      tabId,
     } as PortMessage);
 
     port.onMessage.addListener(async function (message: PortMessage) {
@@ -21,6 +26,14 @@ export function initPanel() {
         store.dispatch(websocketAdd(message.data));
       }
     });
+
+    if (chrome?.tabs?.onUpdated) {
+      chrome.tabs.onUpdated.addListener((tId, { status }) => {
+        if (tId === tabId && status === 'loading') {
+          store.dispatch(clearLog({ force: false }));
+        }
+      });
+    }
   } catch (e) {
     // Means that we run in `dev` mode.
     window.addEventListener('message', ({ data }: { data: PortMessage }) => {

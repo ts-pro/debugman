@@ -1,0 +1,38 @@
+@import '~antd/dist/antd.dark.css';
+
+.websocket .gutter-horizontal {
+    background-color: gray;
+    cursor: ew-resize;
+}
+
+.websocket {
+    height: 100vh;
+
+    &__aside {
+      background-color: #aaaaaa;
+    }
+
+    &__header {
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px;
+    }
+
+    &__clear {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__preserve, &__hide {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__input {
+        margin: 0 10px 0 0;
+        max-width: 300px;
+    }
+}
