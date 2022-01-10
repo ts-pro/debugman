@@ -19,7 +19,10 @@ export const websocketSlice = createSlice({
   initialState,
   reducers: {
     websocketAdd: (state, action: PayloadAction<WebsocketStateItem>) => {
-      state.items.push(action.payload);
+      const event = { ...action.payload };
+
+      event.id = Math.random().toString().replace('0.', '');
+      state.items.push(event);
     },
     websocketSetIsEmptyHidden: (state) => {
       state.isEmptyHidden = !state.isEmptyHidden;

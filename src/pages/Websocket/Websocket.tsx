@@ -17,32 +17,27 @@ import {
 } from '@/store/websocket-slice/websocket-slice';
 
 export default function Websocket() {
-  const { Header, Footer, Sider, Content } = Layout;
+  const { Header, Sider, Content } = Layout;
   const items = useAppSelector((state) => state.websocket.items);
   const isEmptyHidden = useAppSelector(
     (state) => state.websocket.isEmptyHidden
   );
-  const firstRender = useRef(true);
   const selectedItemBuffer = useRef<WebsocketStateItem>();
   const [selectedItem, setSelectedItem] = useState<WebsocketStateItem | null>(
     null
   );
-  let websocketMessages: WebsocketStateItem[] =
-    resolveMessageContentVisibility(items);
+  const [searchInput, updateSearchInput] = useState('');
+  const [websocketMessages, updateWebsocketMessages] = useState<
+    WebsocketStateItem[] | undefined
+  >();
 
   function showDetails(item: WebsocketStateItem): void {
-    websocketMessages.forEach((item: WebsocketStateItem) => {
-      if (item.selected) {
-        Object.assign(item, { selected: false });
-      }
-    });
-    Object.assign(item, { selected: true });
     setSelectedItem(item);
     selectedItemBuffer.current = item;
   }
 
-  function hideEmptyMessages(): void {
-    store.dispatch(websocketSetIsEmptyHidden());
+  async function hideEmptyMessages(): Promise<void> {
+    await store.dispatch(websocketSetIsEmptyHidden());
   }
 
   function preserveLog(): void {
@@ -52,9 +47,11 @@ export default function Websocket() {
   function clearLogPermanently(): void {
     store.dispatch(clearLog({ force: true }));
     setSelectedItem(null);
+    selectedItemBuffer.current = undefined;
+    updateSearchInput('');
   }
 
-  function resolveMessageContentVisibility(
+  function contentVisibilityFilter(
     items: WebsocketStateItem[]
   ): WebsocketStateItem[] {
     if (isEmptyHidden) {
@@ -64,9 +61,9 @@ export default function Websocket() {
     return items;
   }
 
-  function reselveSelectedMessageContentVisibility() {
+  function selectedMessageContentVisibilityFilter() {
     if (selectedItem && isEmptyHidden) {
-      const [selected] = resolveMessageContentVisibility([
+      const [selected] = contentVisibilityFilter([
         selectedItemBuffer.current as WebsocketStateItem,
       ]);
 
@@ -76,15 +73,21 @@ export default function Websocket() {
     }
   }
 
-  useEffect((): void => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+  function filterMessages(): void {
+    const messages = contentVisibilityFilter(items).filter((item) =>
+      JSON.stringify(item).toLowerCase().includes(searchInput)
+    );
+    updateWebsocketMessages(messages);
+  }
 
-    reselveSelectedMessageContentVisibility();
-    websocketMessages = resolveMessageContentVisibility(items);
+  useEffect(() => {
+    selectedMessageContentVisibilityFilter();
+    updateWebsocketMessages(contentVisibilityFilter(items));
   }, [isEmptyHidden]);
+
+  useEffect(() => {
+    filterMessages();
+  }, [searchInput, items]);
 
   return (
     <Layout className="websocket">
@@ -99,6 +102,8 @@ export default function Websocket() {
           className="websocket__input"
           placeholder="Search by event name"
           prefix={<SearchOutlined />}
+          value={searchInput}
+          onChange={(event) => updateSearchInput(event.target.value)}
         />
         <Button
           className="websocket__clear"
@@ -116,7 +121,6 @@ export default function Websocket() {
           <WebsocketDetails item={selectedItem} />
         </Content>
       </Layout>
-      <Footer />
     </Layout>
   );
 }

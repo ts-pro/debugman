@@ -1,27 +1,26 @@
+import { Menu } from 'antd';
 import React from 'react';
 
 import { WebsocketStateItem } from '@/store/websocket-slice/websocket-slice';
-import './WebsocketList.scss';
 
 type Props = {
-  items: WebsocketStateItem[];
+  items: WebsocketStateItem[] | undefined;
   showDetails: (item: WebsocketStateItem) => void;
 };
 
 const WebsocketList: React.FC<Props> = ({ items, showDetails }) => {
-  const rows: JSX.Element[] = items.map((item, index) => (
-    <div
-      className={`websocket-list__item ${item.selected ? 'selected' : ''}`}
+  const rows: JSX.Element[] | undefined = items?.map((item, index) => (
+    <Menu.Item
       key={index}
       onClick={() => {
         showDetails(item);
       }}
     >
-      Websocket message {'>'}
-    </div>
+      Websocket message
+    </Menu.Item>
   ));
 
-  return <div>{rows}</div>;
+  return <Menu theme="dark">{rows ?? []}</Menu>;
 };
 
 export default WebsocketList;
