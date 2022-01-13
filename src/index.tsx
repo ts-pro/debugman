@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -18,6 +18,7 @@ import { store } from './store/store';
 
 function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  const [colorSchemeAutoDetected, setAutoDetected] = useState(false);
   const toggleTheme = (forceTheme?: 'dark' | 'light'): void => {
     if (forceTheme) {
       return setTheme(forceTheme);
@@ -35,11 +36,14 @@ function App() {
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches
     ) {
-      toggleTheme('dark');
+      if (!colorSchemeAutoDetected) {
+        setAutoDetected(true);
+        toggleTheme('dark');
+      }
     }
   };
 
-  useEffect(() => detectColorScheme());
+  detectColorScheme();
 
   return (
     <Provider store={store}>

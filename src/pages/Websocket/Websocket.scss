@@ -27,13 +27,41 @@
 
     &__input {
         margin: 0 10px 0 0;
-        max-width: 300px;
-        color: grey !important;
+        max-width: 220px;
+        color: #808080 !important;
+        padding: 2px 4px;
     }
 }
+
 .ant-layout {
     background: unset;
 }
+
 .ant-layout * {
     color: unset;
+}
+
+.ant-checkbox-wrapper {
+    line-height: 30px;
+    font-size: 12px;
+}
+
+.ant-layout-header {
+    flex-wrap: wrap;
+    height: unset;
+}
+
+.ant-input-affix-wrapper, .ant-input {
+    font-size: 12px;
+    background: #e3e3e3;
+}
+
+.ant-layout-content {
+    overflow: scroll;
+}
+
+.ant-btn-circle {
+    min-width: 26px;
+    width: 26px;
+    height: 26px;
 }
