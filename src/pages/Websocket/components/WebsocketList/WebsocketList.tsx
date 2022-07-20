@@ -16,7 +16,7 @@ const WebsocketList: React.FC<Props> = ({ items, showDetails }) => {
         showDetails(item);
       }}
     >
-      Websocket message
+      {Object.keys(item)[0]}
     </Menu.Item>
   ));
 
