@@ -12,8 +12,8 @@ export function DarkModeButton({
   return (
     <Switch
       className="dark-mode-button"
-      checkedChildren="🌞️"
-      unCheckedChildren="🌚"
+      checkedChildren="🌚️"
+      unCheckedChildren="🌞️"
       checked={theme !== 'dark'}
       onChange={() => toggleColorMode()}
     />
