@@ -19,9 +19,11 @@ export const websocketSlice = createSlice({
   initialState,
   reducers: {
     websocketAdd: (state, action: PayloadAction<WebsocketStateItem>) => {
+      const date = new Date();
       const event = { ...action.payload };
 
       event.id = Math.random().toString().replace('0.', '');
+      event.time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
       state.items.push(event);
     },
     websocketSetIsEmptyHidden: (state) => {
