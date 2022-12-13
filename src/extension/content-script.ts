@@ -2,8 +2,6 @@ import { PortMessage, PortName } from './types/types';
 
 import Port = chrome.runtime.Port;
 
-console.log('content-script loaded');
-
 const PORT_NAME: PortName = 'webpage';
 let cachedPort: Port | undefined;
 
